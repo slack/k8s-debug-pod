@@ -12,7 +12,7 @@ LABEL org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.docker.dockerfile="/Dockerfile"
 
 RUN apk add --update ca-certificates \
- && apk add bash curl netcat-openbsd bind-tools \
+ && apk add bash curl netcat-openbsd bind-tools openssl \
  && rm /var/cache/apk/*
 
 RUN \
