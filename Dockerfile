@@ -23,6 +23,14 @@ RUN \
  curl -L https://storage.googleapis.com/kubernetes-release/release/v1.5.7/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl-v1.5.7 \
  && chmod +x /usr/local/bin/kubectl-v1.5.7
 
+RUN \
+ curl -L https://storage.googleapis.com/kubernetes-release/release/v1.10.7/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl-v1.10.7 \
+ && chmod +x /usr/local/bin/kubectl-v1.10.7
+
+RUN \
+ curl -L https://storage.googleapis.com/kubernetes-release/release/v1.11.2/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl-v1.11.2 \
+ && chmod +x /usr/local/bin/kubectl-v1.11.2
+
 # etcdctl 2.3.8
 RUN \
  curl -L https://github.com/coreos/etcd/releases/download/v2.3.8/etcd-v2.3.8-linux-amd64.tar.gz -o /tmp/etcd-v2.3.8.tar.gz \
@@ -38,3 +46,7 @@ RUN \
  curl -L https://github.com/coreos/etcd/releases/download/v3.1.8/etcd-v3.1.8-linux-amd64.tar.gz -o /tmp/etcd-v3.1.8.tar.gz \
  && tar -C /tmp -xvzf /tmp/etcd-v3.1.8.tar.gz --strip-components=1 etcd-v3.1.8-linux-amd64/etcdctl && mv /tmp/etcdctl /usr/local/bin/etcdctl-v3.1.8 && rm /tmp/etcd-v3.1.8.tar.gz
 
+
+RUN \
+  ln -s /usr/local/bin/kubectl-v1.11.2 /usr/local/bin/kubectl; \
+  ln -s /usr/local/bin/etcdctl-v3.1.8 /usr/local/bin/etcdctl

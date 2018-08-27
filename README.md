@@ -5,7 +5,7 @@ Quick and dirty image that can be used to debug Kubernetes clusters.
 ## Contents
 
 * etcdctl versions: 2.3.8, 3.0.17, 3.1.8
-* kubectl versions: 1.5.7, 1.6.4
+* kubectl versions: 1.5.7, 1.6.4, 1.10.7, 1.11.2
 
 ## Usage
 
