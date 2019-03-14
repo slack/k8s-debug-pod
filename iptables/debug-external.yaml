@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: debug-external
+  namespace: default
+  labels:
+    name: debug-external
+spec:
+  selector:
+    matchLabels:
+      name: debug-external
+  template:
+    metadata:
+      labels:
+        name: debug-external
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: debug
+        image: jhansen/k8s-debug-pod:iptables
+        command: [ "/bin/sh", "-c", "while true; do date && curl -v https://www.google.com && sleep ${POD_SLEEP_SECS}; done "]
+        env:
+          - name: POD_SLEEP_SECS
+            value: "30"
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+      terminationGracePeriodSeconds: 30
