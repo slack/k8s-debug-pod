@@ -13,7 +13,7 @@ LABEL org.label-schema.vcs-ref=$VCS_REF \
 
 RUN apk add --update ca-certificates \
  && apk add bash curl netcat-openbsd bind-tools net-tools \
-    openssl openssh iptables tcpdump tshark iproute2 \
+    openssl openssh iptables ebtables tcpdump tshark iproute2 \
  && rm /var/cache/apk/*
 
 RUN \
