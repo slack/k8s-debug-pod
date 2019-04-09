@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: debug-conntrack
+  namespace: default
+  labels:
+    name: debug-conntrack
+spec:
+  selector:
+    matchLabels:
+      name: debug-conntrack
+  template:
+    metadata:
+      labels:
+        name: debug-conntrack
+    spec:
+      hostNetwork: true
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: debug
+        image: jhansen/k8s-debug-pod:latest
+        imagePullPolicy: Always
+        command: [ "/bin/sh", "-c", "while true; do date && echo -n 'max:' && cat /host/sys/net/netfilter/nf_conntrack_max && echo -n 'count:' && cat /host/sys/net/netfilter/nf_conntrack_count && sleep ${POD_SLEEP_SECS}; done "]
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+              - NET_ADMIN
+        env:
+          - name: POD_SLEEP_SECS
+            value: "30"
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - mountPath: /host
+          name: proc
+          readOnly: true
+      volumes:
+      - name: proc
+        hostPath:
+          path: /proc
+      terminationGracePeriodSeconds: 30

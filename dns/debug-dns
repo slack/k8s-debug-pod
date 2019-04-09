@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#set -x
+
+function query { # args: server query
+	dig -4 @$1 $2 +short +identify +tcp
+}
+
+while true; do
+	date
+
+	if [[ "${CHECK_KUBE}" == "true" ]]; then
+		echo "==== kube-dns kube-dns kube-dns ========================="
+		query 10.0.0.10 kubernetes.default.svc.cluster.local.
+		query 10.0.0.10 bing.com.
+		query 10.0.0.10 google.com.
+	fi
+
+	if [[ "${CHECK_AZURE}" == "true" ]]; then
+		echo "==== Azure internal, Azure internal, Azure internal ========================="
+		query 168.63.129.16 bing.com.
+		query 168.63.129.16 google.com.
+	fi
+
+
+	if [[ "${CHECK_EXTERNAL}" == "true" ]]; then
+		echo "==== External, External, External ========================="
+		query 8.8.8.8 bing.com.
+		query 8.8.8.8 google.com.
+	fi
+
+	sleep "${POD_SLEEP_SECS}";
+done

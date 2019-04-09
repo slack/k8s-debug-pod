@@ -1,34 +1,36 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: debug-iptables
+  name: debug-dns
   namespace: default
   labels:
-    name: debug-iptables
+    name: debug-dns
 spec:
   selector:
     matchLabels:
-      name: debug-iptables
+      name: debug-dns
   template:
     metadata:
       labels:
-        name: debug-iptables
+        name: debug-dns
     spec:
-      hostNetwork: true
       tolerations:
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
       containers:
       - name: debug
-        image: jhansen/k8s-debug-pod:iptables
-        command: [ "/bin/sh", "-c", "while true; do date && iptables -nvL && iptables -nvL -t nat && sleep ${POD_SLEEP_SECS}; done "]
-        securityContext:
-          capabilities:
-            add:
-              - NET_ADMIN
+        image: jhansen/k8s-debug-pod:dns
+        imagePullPolicy: Always
+        command: ["/debug-dns"]
         env:
           - name: POD_SLEEP_SECS
             value: "30"
+          - name: CHECK_KUBE
+            value: "true"
+          - name: CHECK_AZURE
+            value: "true"
+          - name: CHECK_EXTERNAL
+            value: "true"
         resources:
           limits:
             memory: 200Mi

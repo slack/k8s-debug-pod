@@ -1,33 +1,36 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: debug-external
+  name: sniff-dns
   namespace: default
   labels:
-    name: debug-external
+    name: sniff-dns
 spec:
   selector:
     matchLabels:
-      name: debug-external
+      name: sniff-dns
   template:
     metadata:
       labels:
-        name: debug-external
+        name: sniff-dns
     spec:
+      hostNetwork: true
       tolerations:
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
       containers:
       - name: debug
-        image: jhansen/k8s-debug-pod:iptables
-        command: [ "/bin/sh", "-c", "while true; do date && curl -v https://www.google.com && sleep ${POD_SLEEP_SECS}; done "]
-        env:
-          - name: POD_SLEEP_SECS
-            value: "30"
+        image: jhansen/k8s-debug-pod:dns
+        imagePullPolicy: Always
+        command: ["tshark", "-f", "udp port 53"]
         resources:
           limits:
             memory: 200Mi
           requests:
             cpu: 100m
             memory: 200Mi
+        securityContext:
+          capabilities:
+            add:
+              - NET_ADMIN
       terminationGracePeriodSeconds: 30

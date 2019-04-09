@@ -1,0 +1,3 @@
+FROM jhansen/k8s-debug-pod:latest
+
+COPY dns/debug-dns /debug-dns
