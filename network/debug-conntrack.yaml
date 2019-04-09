@@ -20,7 +20,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: debug
-        image: jhansen/k8s-debug-pod:latest
+        image: jhansen/k8s-debug-pod:0.1.0
         imagePullPolicy: Always
         command: [ "/bin/sh", "-c", "while true; do date && echo -n 'max:' && cat /host/sys/net/netfilter/nf_conntrack_max && echo -n 'count:' && cat /host/sys/net/netfilter/nf_conntrack_count && sleep ${POD_SLEEP_SECS}; done "]
         securityContext:

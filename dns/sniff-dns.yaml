@@ -20,7 +20,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: debug
-        image: jhansen/k8s-debug-pod:dns
+        image: jhansen/k8s-debug-pod:dns-0.1.0
         imagePullPolicy: Always
         command: ["tshark", "-f", "udp port 53"]
         resources:

@@ -19,7 +19,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: debug
-        image: jhansen/k8s-debug-pod:iptables
+        image: jhansen/k8s-debug-pod:0.1.0
         command: [ "/bin/sh", "-c", "while true; do date && curl -v -qs https://www.google.com > /dev/null && sleep ${POD_SLEEP_SECS}; done "]
         env:
           - name: POD_SLEEP_SECS

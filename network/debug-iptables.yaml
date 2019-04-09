@@ -20,7 +20,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: debug
-        image: jhansen/k8s-debug-pod:iptables
+        image: jhansen/k8s-debug-pod:0.1.0
         command: [ "/bin/sh", "-c", "while true; do date && iptables -nvL && iptables -nvL -t nat && sleep ${POD_SLEEP_SECS}; done "]
         securityContext:
           capabilities:
