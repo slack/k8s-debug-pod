@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: debug-routes
-  namespace: default
   labels:
     name: debug-routes
 spec:

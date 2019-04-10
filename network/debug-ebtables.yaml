@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: debug-ebtables
-  namespace: default
   labels:
     name: debug-ebtables
 spec:

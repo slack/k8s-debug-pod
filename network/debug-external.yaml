@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: debug-external
-  namespace: default
   labels:
     name: debug-external
 spec:

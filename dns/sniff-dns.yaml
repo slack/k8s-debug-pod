@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: sniff-dns
-  namespace: default
   labels:
     name: sniff-dns
 spec:
