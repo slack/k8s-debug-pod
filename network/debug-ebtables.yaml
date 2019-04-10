@@ -28,7 +28,7 @@ spec:
               - NET_ADMIN
         env:
           - name: POD_SLEEP_SECS
-            value: "600"
+            value: "30"
         resources:
           limits:
             memory: 200Mi
