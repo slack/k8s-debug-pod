@@ -17,13 +17,29 @@ bash-4.3# etcdctl-v3.1.8 --endpoint http://kcp-etcd:2379 member list
 c33944875fb30d39: name=kcp-etcd-0 peerURLs=http://kcp-etcd-0.kcp-etcd:2380 clientURLs=http://kcp-etcd-0.kcp-etcd:2379 isLeader=false
 ```
 
-## Ebtables
+## Networking
 
-Dumps `ebtables -t nat -L`, `ebtables -L`, `arp -na`, and the last 200 lines of `azure-cnimonitor.log` on a loop of `POD_SLEEP_SECS`.
+### DNS
+
+```console
+kubectl -n default apply -f dns/debug-dns.yaml
+```
+
+Checks (kube/core)-dns, Azure internal DNS, and external DNS resolution for internal and external domains.
+
+```console
+kubectl -n default apply -f dns/sniff-dns.yaml
+```
+
+Launches a pod in the host namespace with `NET_ADMIN`, runs `tshark -f udp port 53` to catch all DNS requests leaving the host.
+
+### Ebtables
 
 ```console
 kubectl -n default apply -f network/debug-ebtables.yaml
 ```
+
+Dumps `ebtables -t nat -L`, `ebtables -L`, `arp -na`, and the last 200 lines of `azure-cnimonitor.log` on a loop of `POD_SLEEP_SECS`.
 
 To check the status of `azure-cni-networkmonitor` this debug pod also mounts `/var/log`:
 
